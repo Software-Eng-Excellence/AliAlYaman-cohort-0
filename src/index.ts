@@ -5,8 +5,25 @@
 //ISP - Interface Segregation Principle
 //DIP - Dependency Inversion Principle
 
+import {  AvgBuyPowerCalculator, FinanceCalculator, OrderManagement } from "./app-clean";
 
-import  config  from "./config";
 
-const first_name = "Ali";
-console.log(`Testing with ${first_name}, secret is ${config.secret}`);
+const newItem = "Marble";
+const newPrice = 22;
+
+let orderManagement = new OrderManagement();
+let financeCalculator = new FinanceCalculator();
+let avgBuyingCalculator = new AvgBuyPowerCalculator();
+orderManagement.addOrder(newItem, newPrice);
+OrderManagement.displayOrders();
+
+const fetchId = 2;
+const fetchedOrder = orderManagement.getOrderById(fetchId);
+console.log("Order with ID 2:", fetchedOrder);
+
+const nonExistentId = 10;
+const nonExistentOrder = orderManagement.getOrderById(nonExistentId);
+console.log("Order with ID 10 (non-existent):", nonExistentOrder);
+
+financeCalculator.calculate(); 
+avgBuyingCalculator.calculate();
