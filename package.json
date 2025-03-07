@@ -31,6 +31,7 @@
   },
   "dependencies": {
     "dotenv": "^16.4.7",
-    "se2": "file:"
+    "se2": "file:",
+    "winston": "^3.17.0"
   }
 }

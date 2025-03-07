@@ -1,4 +1,4 @@
-import { c } from "vite/dist/node/types.d-aGj9QkWt";
+import logger from "./utils/logger";
 
 interface IItems {
   possibleItems: string[];
@@ -65,7 +65,9 @@ export class OrderManagement implements IOrderRepository {
   }
   getOrderById(id: number): IOrder | null {
     let order = OrderManagement.orders.find((order) => order.id === id) || null;
-
+    if(order === null) {
+      logger.warn("Order with ID " + id + " not found");
+    };
     return order;
   }
   addOrder(item: string, price: number): void {
@@ -74,13 +76,14 @@ export class OrderManagement implements IOrderRepository {
       let validator = new Validator();
       validator.validate(order);
       OrderManagement.orders.push(order);
+      logger.debug("%o added successfully", order);
     } catch (error: any) {
       throw new Error("Order Management : Error adding order " + error.message);
     }
   }
 
   public static displayOrders(): void {
-    console.log(
+    logger.info(
       OrderManagement.orders
         .map(
           (order) =>
@@ -114,6 +117,7 @@ export class ItemValidator implements IValidator {
   validate(order: IOrder): void {
     let items = new Items();
     if (!items.getItems().includes(order.item)) {
+      logger.error("Item has to be one of the following: ", items.getItems());
       throw new Error(
         "Item has to be one of the following: " + items.getItems().join(", ")
       );
@@ -139,7 +143,7 @@ export class FinanceCalculator implements ICalculator {
   calculate(): number {
     let orders = new OrderManagement().getOrders();
     let result = orders.reduce((total, order) => total + order.price, 0);
-    console.log("Total price of all orders: ", result);
+    logger.info("Total price of all orders: ", result);
     return result;
   }
 }
@@ -152,7 +156,7 @@ export class AvgBuyPowerCalculator implements ICalculator {
         ? 0
         : orders.reduce((acc, order) => acc + order.price, 0) / orders.length;
 
-    console.log("Total Average Buying Power: ", result);
+    logger.info("Total Average Buying Power: ", result);
     return Number(result.toFixed(2));
   }
 }
