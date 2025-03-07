@@ -1,3 +1,5 @@
+import { c } from "vite/dist/node/types.d-aGj9QkWt";
+
 interface IItems {
   possibleItems: string[];
   getItems(): string[];
@@ -49,15 +51,14 @@ export class Order implements IOrder {
 }
 
 export class OrderManagement implements IOrderRepository {
-  private  static idCounter = 1;
-  private  static orders: IOrder[] = [
+  private static idCounter = 1;
+  private static orders: IOrder[] = [
     { id: this.idCounter++, item: "Sponge", price: 15 },
     { id: this.idCounter++, item: "Chocolate", price: 20 },
     { id: this.idCounter++, item: "Fruit", price: 18 },
     { id: this.idCounter++, item: "Red Velvet", price: 25 },
     { id: this.idCounter++, item: "Coffee", price: 8 },
   ];
-
 
   getOrders(): IOrder[] {
     return OrderManagement.orders;
@@ -68,10 +69,14 @@ export class OrderManagement implements IOrderRepository {
     return order;
   }
   addOrder(item: string, price: number): void {
-    let validator = new Validator();
-    let order = new Order(OrderManagement.idCounter++, item, price);
-    validator.validate(order);
-    OrderManagement.orders.push(order);
+    try {
+      let order = new Order(OrderManagement.idCounter++, item, price);
+      let validator = new Validator();
+      validator.validate(order);
+      OrderManagement.orders.push(order);
+    } catch (error: any) {
+      throw new Error("Order Management : Error adding order " + error.message);
+    }
   }
 
   public static displayOrders(): void {
@@ -117,10 +122,13 @@ export class ItemValidator implements IValidator {
 }
 
 export class Validator implements IValidator {
-  constructor(private rules: IValidator[]= [
-    new PriceValidator(),
-    new MaxValidator(),
-    new ItemValidator(),]) {}
+  constructor(
+    private rules: IValidator[] = [
+      new PriceValidator(),
+      new MaxValidator(),
+      new ItemValidator(),
+    ]
+  ) {}
 
   validate(order: Order): void {
     this.rules.forEach((rule) => rule.validate(order));
@@ -143,7 +151,6 @@ export class AvgBuyPowerCalculator implements ICalculator {
       orders.length === 0
         ? 0
         : orders.reduce((acc, order) => acc + order.price, 0) / orders.length;
-      
 
     console.log("Total Average Buying Power: ", result);
     return Number(result.toFixed(2));

@@ -9,8 +9,15 @@ const config: Config.InitialOptions = {
   collectCoverage: true,
   collectCoverageFrom: ["src/**/*.ts"],
   coverageDirectory: "coverage",
+  coverageThreshold: {
+    // Specifies the coverage threshold levels
+    global: {
+      functions: 80,
+      statements: 75,
+    },
+  },
   transform: {
-     "^.+\\.tsx?$": "ts-jest"
+    "^.+\\.tsx?$": "ts-jest",
   },
   moduleFileExtensions: ["ts", "js"],
 };

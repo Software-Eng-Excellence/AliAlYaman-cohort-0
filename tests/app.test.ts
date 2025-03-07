@@ -3,13 +3,22 @@ import { AvgBuyPowerCalculator, FinanceCalculator } from "./../src/app";
 
 import { OrderManagement } from "./../src/app";
 
+let orderManagement: OrderManagement;
+let item: string;
+let price: number;
+let totalRevenueCalculator: FinanceCalculator;
+let avgBuyPowerCalculator: AvgBuyPowerCalculator;
+
+beforeAll(() => {
+  orderManagement = new OrderManagement();
+  item = "Sponge";
+  price = 15;
+  totalRevenueCalculator = new FinanceCalculator();
+  avgBuyPowerCalculator = new AvgBuyPowerCalculator();
+});
+
 describe("OrderManagement", () => {
   it("should add an order", () => {
-    // Arrange
-    const orderManagement = new OrderManagement();
-    const item = "Sponge";
-    const price = 15;
-
     //Act
     orderManagement.addOrder(item, price);
 
@@ -19,9 +28,9 @@ describe("OrderManagement", () => {
 
   it("should return an order by id", () => {
     // Arrange
-    const orderManagement = new OrderManagement();
-    const item = "Coffee";
-    const price = 35;
+    item = "Coffee";
+    price = 35;
+
     orderManagement.addOrder(item, price);
 
     //Act
@@ -32,22 +41,28 @@ describe("OrderManagement", () => {
   });
 
   it("should return all orders", () => {
-    const orderManagement = new OrderManagement();
     const orders = orderManagement.getOrders();
     expect(orders.length).toBe(7);
+  });
+
+  it("should call add order", () => {
+    const item = "Marble";
+    const price = 22;
+    const addOrderSpy = jest.spyOn(orderManagement, "addOrder");
+    orderManagement.addOrder(item, price);
+    expect(addOrderSpy).toHaveBeenCalled();
+    expect(addOrderSpy).toHaveBeenCalledWith(item, price);
   });
 });
 
 describe("FinanceCalculator", () => {
   it("should calculate the total price of all orders", () => {
-    const financeCalculator = new FinanceCalculator();
-    const totalPrice = financeCalculator.calculate();
-    expect(totalPrice).toBe(136);
+    const totalPrice = totalRevenueCalculator.calculate();
+    expect(totalPrice).toBe(158);
   });
 
   it("should calculate the average buying power", () => {
-    const financeCalculator = new AvgBuyPowerCalculator();
-    const avgBuyingPower = financeCalculator.calculate();
-    expect(avgBuyingPower).toBe(19.43);
+    const avgBuyingPower = avgBuyPowerCalculator.calculate();
+    expect(avgBuyingPower).toBeCloseTo(19.75, 1);
   });
 });
