@@ -128,21 +128,24 @@ export class Validator implements IValidator {
 }
 
 export class FinanceCalculator implements ICalculator {
-  calculate(): void {
+  calculate(): number {
     let orders = new OrderManagement().getOrders();
     let result = orders.reduce((total, order) => total + order.price, 0);
     console.log("Total price of all orders: ", result);
+    return result;
   }
 }
 
 export class AvgBuyPowerCalculator implements ICalculator {
-  calculate(): void {
+  calculate(): number {
     let orders = new OrderManagement().getOrders();
     let result =
       orders.length === 0
         ? 0
         : orders.reduce((acc, order) => acc + order.price, 0) / orders.length;
+      
 
     console.log("Total Average Buying Power: ", result);
+    return Number(result.toFixed(2));
   }
 }

@@ -9,7 +9,10 @@ const config: Config.InitialOptions = {
   collectCoverage: true,
   collectCoverageFrom: ["src/**/*.ts"],
   coverageDirectory: "coverage",
+  transform: {
+     "^.+\\.tsx?$": "ts-jest"
+  },
+  moduleFileExtensions: ["ts", "js"],
 };
-
 
 export default config;

@@ -5,7 +5,8 @@
 //ISP - Interface Segregation Principle
 //DIP - Dependency Inversion Principle
 
-import {  AvgBuyPowerCalculator, FinanceCalculator, OrderManagement } from "./app-clean";
+import { type } from "os";
+import {  AvgBuyPowerCalculator, FinanceCalculator, OrderManagement } from "./app";
 
 
 const newItem = "Marble";
