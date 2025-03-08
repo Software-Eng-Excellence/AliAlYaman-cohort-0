@@ -13,7 +13,6 @@ export async function readCSVFile(filePath: string, includeHeader:boolean =false
         const fileContent = await fs.readFile(filePath, 'utf-8');
         return new Promise((resolve, reject) => {
             csvParse(fileContent, {
-                
                 trim: true,
                 skip_empty_lines: true
             }, (err, records: string[][]) => {
