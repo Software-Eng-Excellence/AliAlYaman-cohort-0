@@ -1,5 +1,5 @@
-import logger from "./utils/logger";
-import { readCSVFile } from "./utils/parser";
+import logger from "./utils/logs/logger";
+import { readCSVFile } from "./utils/prasers/csvParser";
 
 
 const main = async() => {
