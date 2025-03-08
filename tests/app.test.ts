@@ -1,4 +1,4 @@
-import { AvgBuyPowerCalculator, FinanceCalculator } from "./../src/app";
+import { FinanceCalculator, Validator } from "./../src/app";
 // 3A: Arrange, Act, Assert
 
 import { OrderManagement } from "./../src/app";
@@ -6,15 +6,13 @@ import { OrderManagement } from "./../src/app";
 let orderManagement: OrderManagement;
 let item: string;
 let price: number;
-let totalRevenueCalculator: FinanceCalculator;
-let avgBuyPowerCalculator: AvgBuyPowerCalculator;
+let calculator: FinanceCalculator = new FinanceCalculator;
+let validator : Validator = new Validator;
 
 beforeAll(() => {
-  orderManagement = new OrderManagement();
+  orderManagement = new OrderManagement(validator, calculator);
   item = "Sponge";
   price = 15;
-  totalRevenueCalculator = new FinanceCalculator();
-  avgBuyPowerCalculator = new AvgBuyPowerCalculator();
 });
 
 describe("OrderManagement", () => {
@@ -56,13 +54,20 @@ describe("OrderManagement", () => {
 });
 
 describe("FinanceCalculator", () => {
+
+  let orders: any[];
+  
+  beforeAll(() => {
+    orders = orderManagement.getOrders();
+  });
+
   it("should calculate the total price of all orders", () => {
-    const totalPrice = totalRevenueCalculator.calculate();
+    const totalPrice = calculator.getTotalRevenue(orders);
     expect(totalPrice).toBe(158);
   });
 
   it("should calculate the average buying power", () => {
-    const avgBuyingPower = avgBuyPowerCalculator.calculate();
+    const avgBuyingPower = calculator.getAvgBuyPower(orders);
     expect(avgBuyingPower).toBeCloseTo(19.75, 1);
   });
 });
