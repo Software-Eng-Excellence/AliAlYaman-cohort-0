@@ -22,7 +22,8 @@ interface IValidator {
 }
 
 interface ICalculator {
-  calculate(): void;
+  getTotalRevenue(orders: IOrder[]): number;
+  getAvgBuyPower(orders: IOrder[]): number;
 }
 
 export class Items implements IItems {
@@ -42,29 +43,24 @@ export class Items implements IItems {
   }
 }
 
-export class Order implements IOrder {
-  constructor(public id: number, public item: string, public price: number) {
-    this.id = id;
-    this.item = item;
-    this.price = price;
-  }
-}
+// No need for this class
+// export class Order implements IOrder {
+//   constructor(public id: number, public item: string, public price: number) {
+//     this.id = id;
+//     this.item = item;
+//     this.price = price;
+//   }
+// }
 
 export class OrderManagement implements IOrderRepository {
-  private static idCounter = 1;
-  private static orders: IOrder[] = [
-    { id: this.idCounter++, item: "Sponge", price: 15 },
-    { id: this.idCounter++, item: "Chocolate", price: 20 },
-    { id: this.idCounter++, item: "Fruit", price: 18 },
-    { id: this.idCounter++, item: "Red Velvet", price: 25 },
-    { id: this.idCounter++, item: "Coffee", price: 8 },
-  ];
+  private orders: IOrder[] = [];
+  constructor(private validator: IValidator, private calculator: ICalculator) {}
 
   getOrders(): IOrder[] {
-    return OrderManagement.orders;
+    return this.orders;
   }
   getOrderById(id: number): IOrder | null {
-    let order = OrderManagement.orders.find((order) => order.id === id) || null;
+    let order = this.orders.find((order) => order.id === id) || null;
     if(order === null) {
       logger.warn("Order with ID " + id + " not found");
     };
@@ -72,29 +68,22 @@ export class OrderManagement implements IOrderRepository {
   }
   addOrder(item: string, price: number): void {
     try {
-      let order = new Order(OrderManagement.idCounter++, item, price);
-      let validator = new Validator();
-      validator.validate(order);
-      OrderManagement.orders.push(order);
+      let order : IOrder = {id: this.orders.length + 1, item: item, price: price};
+      this.validator.validate(order);
+      this.orders.push(order);
       logger.debug("%o added successfully", order);
     } catch (error: any) {
       throw new Error("Order Management : Error adding order " + error.message);
     }
   }
 
-  public static displayOrders(): void {
-    logger.info(
-      OrderManagement.orders
-        .map(
-          (order) =>
-            `ID: ${order.id}, Item: ${order.item}, Price: ${order.price}`
-        )
-        .join("\n")
-    );
+  getRevenue(): number {
+    return this.calculator.getTotalRevenue(this.orders);
   }
 
-  public static getIdCounter(): number {
-    return this.idCounter;
+  
+  getAvgBuyingPower(): number {
+    return this.calculator.getAvgBuyPower(this.orders);
   }
 }
 
@@ -134,29 +123,25 @@ export class Validator implements IValidator {
     ]
   ) {}
 
-  validate(order: Order): void {
+  validate(order: IOrder): void {
     this.rules.forEach((rule) => rule.validate(order));
   }
 }
 
 export class FinanceCalculator implements ICalculator {
-  calculate(): number {
-    let orders = new OrderManagement().getOrders();
+  getTotalRevenue(orders: IOrder[]): number {
     let result = orders.reduce((total, order) => total + order.price, 0);
     logger.info("Total price of all orders: ", result);
     return result;
   }
-}
 
-export class AvgBuyPowerCalculator implements ICalculator {
-  calculate(): number {
-    let orders = new OrderManagement().getOrders();
+  getAvgBuyPower(orders: IOrder[]): number {
     let result =
       orders.length === 0
         ? 0
         : orders.reduce((acc, order) => acc + order.price, 0) / orders.length;
 
-    logger.info("Total Average Buying Power: ", result);
+        logger.info("Total Average Buying Power orders: ", result);
     return Number(result.toFixed(2));
   }
 }
