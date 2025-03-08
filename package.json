@@ -8,7 +8,7 @@
     "clean": "rmdir /s /q build",
     "prebuild": "npm run clean && npm run lint",
     "build": "tsc",
-    "postbuild": "for /f %A in ('powershell -command \"(Get-Item -Path dir).length / 1KB\"') do @echo Finished build with size: %A KB",
+    "postbuild": "echo \"Finished build with size: $(du -sh dir | cut -f1)\"",
     "prestart": "npm run build",
     "start": "node build/index.js",
     "dev": "ts-node-dev --respawn src/index.ts"

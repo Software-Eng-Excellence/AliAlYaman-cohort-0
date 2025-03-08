@@ -20,7 +20,8 @@ interface IValidator {
 }
 
 interface ICalculator {
-  calculate(): void;
+  getTotalRevenue(orders: IOrder[]): number;
+  getAvgBuyPower(orders: IOrder[]): number;
 }
 
 export class Items implements IItems {
@@ -40,53 +41,40 @@ export class Items implements IItems {
   }
 }
 
-export class Order implements IOrder {
-  constructor(public id: number, public item: string, public price: number) {
-    this.id = id;
-    this.item = item;
-    this.price = price;
-  }
-}
+// No need for this class
+// export class Order implements IOrder {
+//   constructor(public id: number, public item: string, public price: number) {
+//     this.id = id;
+//     this.item = item;
+//     this.price = price;
+//   }
+// }
 
 export class OrderManagement implements IOrderRepository {
-  private  static idCounter = 1;
-  private  static orders: IOrder[] = [
-    { id: this.idCounter++, item: "Sponge", price: 15 },
-    { id: this.idCounter++, item: "Chocolate", price: 20 },
-    { id: this.idCounter++, item: "Fruit", price: 18 },
-    { id: this.idCounter++, item: "Red Velvet", price: 25 },
-    { id: this.idCounter++, item: "Coffee", price: 8 },
-  ];
-
+  private orders: IOrder[] = [];
+  constructor(private validator: IValidator, private calculator: ICalculator) {}
 
   getOrders(): IOrder[] {
-    return OrderManagement.orders;
+    return this.orders;
   }
   getOrderById(id: number): IOrder | null {
-    let order = OrderManagement.orders.find((order) => order.id === id) || null;
+    let order = this.orders.find((order) => order.id === id) || null;
 
     return order;
   }
   addOrder(item: string, price: number): void {
-    let validator = new Validator();
-    let order = new Order(OrderManagement.idCounter++, item, price);
-    validator.validate(order);
-    OrderManagement.orders.push(order);
+    let order : IOrder = {id: this.orders.length +1, item, price};
+    this.validator.validate(order);
+    this.orders.push(order);
   }
 
-  public static displayOrders(): void {
-    console.log(
-      OrderManagement.orders
-        .map(
-          (order) =>
-            `ID: ${order.id}, Item: ${order.item}, Price: ${order.price}`
-        )
-        .join("\n")
-    );
+
+  getRevenue(): number {
+    return this.calculator.getTotalRevenue(this.orders);
   }
 
-  public static getIdCounter(): number {
-    return this.idCounter;
+  getAvgBuyingPower(): number {
+    return this.calculator.getAvgBuyPower(this.orders);
   }
 }
 
@@ -117,32 +105,31 @@ export class ItemValidator implements IValidator {
 }
 
 export class Validator implements IValidator {
-  constructor(private rules: IValidator[]= [
-    new PriceValidator(),
-    new MaxValidator(),
-    new ItemValidator(),]) {}
+  constructor(
+    private rules: IValidator[] = [
+      new PriceValidator(),
+      new MaxValidator(),
+      new ItemValidator(),
+    ]
+  ) {}
 
-  validate(order: Order): void {
+  validate(order: IOrder): void {
     this.rules.forEach((rule) => rule.validate(order));
   }
 }
 
 export class FinanceCalculator implements ICalculator {
-  calculate(): void {
-    let orders = new OrderManagement().getOrders();
+  getTotalRevenue(orders: IOrder[]): number {
     let result = orders.reduce((total, order) => total + order.price, 0);
-    console.log("Total price of all orders: ", result);
+    return result;
   }
-}
 
-export class AvgBuyPowerCalculator implements ICalculator {
-  calculate(): void {
-    let orders = new OrderManagement().getOrders();
+  getAvgBuyPower(orders: IOrder[]): number {
     let result =
       orders.length === 0
         ? 0
         : orders.reduce((acc, order) => acc + order.price, 0) / orders.length;
 
-    console.log("Total Average Buying Power: ", result);
+    return result;
   }
 }
