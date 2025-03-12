@@ -1,7 +1,7 @@
 import { readCSVFile, writeCSVFile } from "../../../src/utils/parsers/csvParser"; // Adjust the import path as necessary
 import * as fs from "fs";
 
-describe("readCSV", () => {
+describe("Csv Parser", () => {
     const dummyFile = 'tests/utils/data/dummy.csv';
     const invalidFilePath = 'invalid/path/to/csvfile.csv';
     let data : string[][];

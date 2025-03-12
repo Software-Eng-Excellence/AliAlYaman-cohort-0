@@ -1,15 +1,15 @@
+import { readJSONFile } from "./utils/parsers/jsonParser";
 import logger from "./utils/logs/logger";
 import { readCSVFile } from "./utils/parsers/csvParser";
+import { readXMLFile } from "./utils/parsers/xmlParser";
 
 
 const main = async() => {
-  const data = await readCSVFile('src/data/cake orders.csv');
-  data.forEach((row) => {
-    logger.info(typeof row)
-  })
+  // const data = await readJSONFile('tests/utils/data/dummy.json');
+  // console.log(data)
   
-//   const data = await readXMLFile("src/data/toy orders.xml");
-//   logger.info(data);
+  const data = await readXMLFile("tests/utils/data/dummy.xml");
+  console.log(data)
 }
 
 
