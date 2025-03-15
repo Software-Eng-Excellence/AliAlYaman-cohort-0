@@ -47,16 +47,16 @@ export class ClothingBuilder {
 
     build(): Clothing {
 
-        const requiredProperties = {
-            name: this.name,
-            price: this.price,
-            description: this.description,
-            size: this.size,
-            color: this.color,
-            brand: this.brand,
-            material: this.material
-        };
-        for (const property in requiredProperties) {
+        const requiredProperties = [
+            this.name,
+            this.price,
+            this.description,
+            this.size,
+             this.color,
+            this.brand,
+             this.material
+        ];
+        for (const property of requiredProperties) {
             if (!property){
                 logger.error("Missing field, could not build cake");
                 throw new Error("Missing required field");

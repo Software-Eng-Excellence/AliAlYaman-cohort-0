@@ -1,7 +1,6 @@
 import { Item, ItemCategory } from "./Item.model";
 
 export class Pet implements Item {
-    private id: string;
     private name: string;
     private price: number;
     private description: string;
@@ -13,7 +12,6 @@ export class Pet implements Item {
     private healthStatus: string;
 
     constructor(
-        id: string,
         name: string,
         price: number,
         description: string,
@@ -24,7 +22,6 @@ export class Pet implements Item {
         color: string,
         healthStatus: string
     ) {
-        this.id = id;
         this.name = name;
         this.price = price;
         this.description = description;
@@ -36,9 +33,6 @@ export class Pet implements Item {
         this.healthStatus = healthStatus;
     }
 
-    getId(): string {
-        return this.id;
-    }
 
     getName(): string {
         return this.name;

@@ -56,7 +56,7 @@ export class ToyBuilder {
             this.color
         ];
 
-        for (const property in requiredProperties) {
+        for (const property of requiredProperties) {
             if (!property){
                 logger.error("Missing field, could not build cake");
                 throw new Error("Missing required field");

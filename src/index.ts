@@ -20,7 +20,6 @@ const main = async() => {
   .setSpecialIngredients("Organic Ingredients")
   .setPackagingType("Standard Box")
   .setPrice(50)
-  .setQuantity(1);
   const cake = cakeBuilder.build();
   
   console.log(cake);
