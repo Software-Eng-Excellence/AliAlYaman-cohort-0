@@ -8,7 +8,6 @@ export class Furniture implements Item {
     private dimensions: string;
     private material: string;
     private color: string;
-    private category: string;
     private brand: string;
 
     constructor(
@@ -18,7 +17,6 @@ export class Furniture implements Item {
         dimensions: string,
         material: string,
         color: string,
-        category: string,
         brand: string
     ) {
         this.name = name;
@@ -27,7 +25,6 @@ export class Furniture implements Item {
         this.dimensions = dimensions;
         this.material = material;
         this.color = color;
-        this.category = category;
         this.brand = brand;
     }
 
