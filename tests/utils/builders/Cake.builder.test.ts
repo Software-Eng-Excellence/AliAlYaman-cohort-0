@@ -1,5 +1,4 @@
 import { CakeBuilder } from './../../../src/model/builders/Cake.builder';
-import { Cake } from './../../../src/model/Cake.model';
 
 describe("CakeBuilder", () => {
     let cakeBuilder: CakeBuilder;
@@ -46,5 +45,10 @@ describe("CakeBuilder", () => {
             quantity: 1
         });
     })
+
+
+    it("should throw an error for missing field", () => {
+        expect(() => new CakeBuilder().setType("Birthday").build()).toThrow("Missing required properties");
+    });
 
 });

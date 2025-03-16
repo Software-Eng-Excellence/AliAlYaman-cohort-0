@@ -71,7 +71,7 @@ export class PetBuilder {
             this.healthStatus
         ];
         for (const property of requiredProperties) {
-            if (!requiredProperties[property as keyof typeof requiredProperties]) {
+            if (!property) {
                 logger.error("Missing field, could not build pet");
                 throw new Error("Missing required field");
             }

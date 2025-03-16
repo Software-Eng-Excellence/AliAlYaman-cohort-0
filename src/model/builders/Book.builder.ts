@@ -8,7 +8,7 @@ export class BookBuilder {
     private description!: string;
     private genre!: string;
     private publisher!: string;
-    private publicationDate!: Date;
+    private publicationDate!: string;
     private language!: string;
     private pageCount!: number;
 
@@ -42,7 +42,7 @@ export class BookBuilder {
         return this;
     }
 
-    public setPublicationDate(publicationDate: Date): BookBuilder {
+    public setPublicationDate(publicationDate: string): BookBuilder {
         this.publicationDate = publicationDate;
         return this;
     }

@@ -56,7 +56,7 @@ export class FurnitureBuilder {
       this.brand,
     ];
     for (const property of requiredProperties) {
-      if (!requiredProperties[property as keyof typeof requiredProperties]) {
+      if (!property) {
         logger.error("Missing field, could not build furniture");
         throw new Error("Missing required field");
       }

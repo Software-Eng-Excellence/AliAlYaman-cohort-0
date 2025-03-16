@@ -5,7 +5,7 @@ export class ToyBuilder {
     private name!: string;
     private price!: number;
     private description!: string;
-    private age_range!: string;
+    private ageRange!: string;
     private brand!: string;
     private material!: string;
     private color!: string;
@@ -25,8 +25,8 @@ export class ToyBuilder {
         return this;
     }
 
-    public setAgeRange(age_range: string): ToyBuilder {
-        this.age_range = age_range;
+    public setAgeRange(ageRange: string): ToyBuilder {
+        this.ageRange = ageRange;
         return this;
     }
 
@@ -50,7 +50,7 @@ export class ToyBuilder {
             this.name,
             this.price,
             this.description,
-            this.age_range,
+            this.ageRange,
             this.brand,
             this.material,
             this.color
@@ -67,7 +67,7 @@ export class ToyBuilder {
             this.name,
             this.price,
             this.description,
-            this.age_range,
+            this.ageRange,
             this.brand,
             this.material,
             this.color

@@ -8,7 +8,7 @@ export class Book implements Item{
     private description: string;
     private genre: string;
     private publisher: string;
-    private publicationDate: Date;
+    private publicationDate: string;
     private language: string;
     private pageCount: number;
 
@@ -19,7 +19,7 @@ export class Book implements Item{
         description: string,
         genre: string,
         publisher: string,
-        publicationDate: Date,
+        publicationDate: string,
         language: string,
         pageCount: number
     ) {
@@ -60,7 +60,7 @@ export class Book implements Item{
         return this.publisher;
     }
 
-    getPublicationDate(): Date {
+    getPublicationDate(): string {
         return this.publicationDate;
     }
 

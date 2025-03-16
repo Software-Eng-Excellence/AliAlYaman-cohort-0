@@ -7,7 +7,7 @@ export class Toy implements Item {
     private name: string;
     private price: number;
     private description: string;
-    private age_range: string;
+    private ageRange: string;
     private brand: string;
     private material: string;
     private color: string;
@@ -16,7 +16,7 @@ export class Toy implements Item {
         name: string,
         price: number,
         description: string,
-        age_range: string,
+        ageRange: string,
         brand: string,
         material: string,
         color: string,
@@ -24,7 +24,7 @@ export class Toy implements Item {
         this.name = name;
         this.price = price;
         this.description = description;
-        this.age_range = age_range;
+        this.ageRange = ageRange;
         this.brand = brand;
         this.material = material;
         this.color = color;
@@ -44,7 +44,7 @@ export class Toy implements Item {
     }
 
     getAgeRange(): string {
-        return this.age_range;
+        return this.ageRange;
     }
 
     getBrand(): string {

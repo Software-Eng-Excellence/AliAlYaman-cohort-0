@@ -1,4 +1,4 @@
-import { Clothing } from "model/Clothing.model";
+import { Clothing } from "../Clothing.model";
 import logger from "../../utils/logger";
 
 export class ClothingBuilder {
