@@ -121,12 +121,12 @@ export class CakeBuilder {
         ];
 
 
-    for (const property of requiredProperties) {
-        if (!property){
-            logger.error("Missing field, could not build cake");
-            throw new Error("Missing required properties");
-        }
-    }
+    // for (const property of requiredProperties) {
+    //     if (!property){
+    //         logger.error("Missing field, could not build cake");
+    //         throw new Error("Missing required properties");
+    //     }
+    // }
 
         return new Cake(
             this.type,

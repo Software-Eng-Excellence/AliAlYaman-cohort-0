@@ -1,28 +1,17 @@
-import { CakeBuilder } from "./model/builders/Cake.builder";
+import { readCSVFile } from "./utils/parser";
+import { CSVCakeMapper } from "./mappers/Cake.mapper";
+import logger from "./utils/logger";
 
 
 
 
 const main = async() => {
-  const cakeBuilder = new CakeBuilder();
-  cakeBuilder.setType("Sponge")
-  .setFlavor("Vanilla")
-  .setFilling("Cream")
-  .setSize(20)
-  .setLayers(2)
-  .setFrostingType("Buttercream")
-  .setFrostingFlavor("Vanilla")
-  .setDecorationType("Sprinkles")
-  .setDecorationColor("Multi-color")
-  .setCustomMessage("Happy Birthday")
-  .setShape("Round")
-  .setAllergies("Nut-Free")
-  .setSpecialIngredients("Organic Ingredients")
-  .setPackagingType("Standard Box")
-  .setPrice(50)
-  const cake = cakeBuilder.build();
-  
-  console.log(cake);
+  const data = await readCSVFile('src/data/cake orders.csv');
+
+  const cakeMapper = new CSVCakeMapper();
+  data.map(cakeMapper.map);
+
+  logger.info("List of cakes : %o", data)
 }
 
 
