@@ -1,67 +1,61 @@
-import { Item, ItemCategory } from "./Item.model";
+import { IItem, ItemCategory } from "./IItem";
 
+export class Toy implements IItem {
+  private name: string;
+  private price: number;
+  private description: string;
+  private ageRange: string;
+  private brand: string;
+  private material: string;
+  private color: string;
 
-export class Toy implements Item {
+  constructor(
+    name: string,
+    price: number,
+    description: string,
+    ageRange: string,
+    brand: string,
+    material: string,
+    color: string
+  ) {
+    this.name = name;
+    this.price = price;
+    this.description = description;
+    this.ageRange = ageRange;
+    this.brand = brand;
+    this.material = material;
+    this.color = color;
+  }
 
+  getName(): string {
+    return this.name;
+  }
 
-    private name: string;
-    private price: number;
-    private description: string;
-    private ageRange: string;
-    private brand: string;
-    private material: string;
-    private color: string;
+  getPrice(): number {
+    return this.price;
+  }
 
-    constructor(
-        name: string,
-        price: number,
-        description: string,
-        ageRange: string,
-        brand: string,
-        material: string,
-        color: string,
-    ) {
-        this.name = name;
-        this.price = price;
-        this.description = description;
-        this.ageRange = ageRange;
-        this.brand = brand;
-        this.material = material;
-        this.color = color;
-    }
+  getDescription(): string {
+    return this.description;
+  }
 
+  getAgeRange(): string {
+    return this.ageRange;
+  }
 
-    getName(): string {
-        return this.name;
-    }
+  getBrand(): string {
+    return this.brand;
+  }
 
-    getPrice(): number {
-        return this.price;
-    }
+  getMaterial(): string {
+    return this.material;
+  }
 
-    getDescription(): string {
-        return this.description;
-    }
+  getColor(): string {
+    return this.color;
+  }
 
-    getAgeRange(): string {
-        return this.ageRange;
-    }
-
-    getBrand(): string {
-        return this.brand;
-    }
-
-    getMaterial(): string {
-        return this.material;
-    }
-
-    getColor(): string {
-        return this.color;
-    }
-
-
-    getCategory(): ItemCategory {
-        return ItemCategory.TOY;
-    }
-    
+  getCategory(): ItemCategory {
+    return ItemCategory.TOY;
+  }
 }
